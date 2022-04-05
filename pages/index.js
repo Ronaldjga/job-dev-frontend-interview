@@ -1,11 +1,12 @@
 import react from "react";
+import { RestaurantList } from "../src/components/restaurantList";
 
 export default function HomePàge() {
     return (
         <div
-            className="bg-gray-900"
+            className=""
         >
-
+            <RestaurantList/>
         </div>
     )
 }
