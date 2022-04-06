@@ -36,7 +36,7 @@ function Restaurantes() {
             const res = await axios.get(`http://challange.goomer.com.br/restaurants`)
             toArray.push(res.data)
             setRestaurantes(...toArray)
-            //console.log(res)
+            console.log(res)
         }
         catch(e) {
             console.log(e)
@@ -74,7 +74,7 @@ function Restaurantes() {
                     return (
                         <div
                             key={key}
-                            className="flex items-center bg-white p-2 rounded-[4px] shadow-md"
+                            className="flex items-center bg-white p-2 rounded-[4px] shadow-md relative"
                         >
                             <div className="w-1/3">
                                 <Image
@@ -86,7 +86,7 @@ function Restaurantes() {
                             <p className="flex flex-col">
                                 <span>{data.name}</span>
                                 <span>{data.address}</span>
-                                
+                                {/* {console.log(data.hours === undefined ? '' : data.hours[0].days)} */}
                             </p>
                             <IsOpen
                                 IsOpen={data.hours}
@@ -102,23 +102,39 @@ function Restaurantes() {
 
 function IsOpen(props) {
     const [currentTime, setCurrentTime] = react.useState('');
-    const restaurantDate = [props.IsOpen]
-    // const validTime = () => {
-    //     if () {
-            
-    //     }
-    // }
+    const [isOpenStyle, setIsOpenStyle] = react.useState('');
+
+    react.useEffect(() => {
+        validTime()
+    },[])
+
+    const validTime = () => {
+        if (props.IsOpen === undefined) {
+            setCurrentTime('Sem horario')
+            setIsOpenStyle('bg-red-600')
+        } else if (props.IsOpen) {
+            props.IsOpen.map((data, i) => {
+                if (data.days.find(e => e === date)) {
+                    if (hours >= data.from && hours <= data.to) {
+                        setCurrentTime('Aberto agora')
+                        setIsOpenStyle('bg-darkPurple')
+                    } else {
+                        setCurrentTime('fechado')
+                        setIsOpenStyle('bg-softPurple')
+                    }
+                } else {
+                    return
+                }
+            })
+        }
+    }
     const newDate = new Date();
     const date = newDate.getDay() + 1;
     const hours = newDate.getHours() + ':' + newDate.getMinutes();
     
     return (
-        <div>
-            {date}
-            {hours}
-            {restaurantDate.map((data, i) => {
-                console.log(data)
-            })}
+        <div className={`${isOpenStyle} w-[55px] h-[55px] flex justify-center items-center rounded-full text-[10px]  text-center text-white  absolute -right-7 -top-5`}>
+            {currentTime}
         </div>
     )
 }
