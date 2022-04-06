@@ -1,11 +1,13 @@
 import react, { useState } from "react";
+import Image from 'next/image'
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
+import seachIcon from './img/search.png'
 
 export function RestaurantMenu(props) {
 
     return (
-        <section>
+        <section className="border-t-[75px] border-bluePrimary">
             <AboutRestaurant
                 restaurantId={props.restaurantId}
             />
@@ -38,7 +40,7 @@ function AboutRestaurant(props) {
 
     return (
         <div
-            className="max-w-screen-xl mx-auto"
+            className="max-w-screen-xl mx-auto py-5 px-2"
         >
             {restaurant.map((data, key) => {
                 // console.log(data[props.restaurantId])
@@ -58,7 +60,7 @@ function AboutRestaurant(props) {
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             </p>
-                            {data[props.restaurantId].hours.map((days, keyss) => {
+                            {data[props.restaurantId].hours === undefined ? '' : data[props.restaurantId].hours.map((days, keyss) => {
                                 return (
                                     <div className="text-xs" key={keyss}>
                                         <WorkDays
@@ -81,17 +83,17 @@ function WorkDays(props) {
     react.useEffect(() => {
         setDays()
     }, [])
-    
+
     const setDays = () => {
         if (props.days.days.includes(1 && 6 && 7)) {
             setWorkDay(`Sexta à Domingo: ${props.days.from} ás ${props.days.to}`)
-        } else if (props.days.days.every(e => e >=2 && e <= 5)) {
+        } else if (props.days.days.every(e => e >= 2 && e <= 5)) {
             setWorkDay(`Segunda à Quinta: ${props.days.from} ás ${props.days.to}`)
-        } else if (props.days.days.every(e => e >=2 && e <= 6)) {
+        } else if (props.days.days.every(e => e >= 2 && e <= 6)) {
             setWorkDay(`Segunda à Sexta: ${props.days.from} ás ${props.days.to}`)
         }
     }
-    
+
 
 
 
@@ -106,11 +108,12 @@ function WorkDays(props) {
 function Menu(props) {
     const [restaurant, setRestaurant] = react.useState([]);
     const router = useRouter()
-    const restId = router.query.restaurant
+    const restId = parseFloat(router.query.restaurant) + 1
+    const [seachFood, setSeachFood] = react.useState('')
 
     react.useEffect(() => {
         getMenu()
-    }, [])
+    },[])
 
     const getMenu = async () => {
         const toArray = []
@@ -126,39 +129,65 @@ function Menu(props) {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-5">
-            {restaurant.map((data, key) => {
-                return (
-                    <div
-                        className="flex gap-4 shadow-md rounded-[4px] items-center"
-                    >
-                        <img
-                            className="w-[100px] h-[100px] rounded-[4px]"
-                            src={data.image}
-                        />
-                        <div>
-                            <h2 className="font-semibold">
-                                {data.name}
-                            </h2>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            </p>
-                            <p className="flex gap-4">
-                                {data.sales === undefined ? '' : data.sales.map((salePrice, o) => {
-                                    return (
-                                        <span className="text-bluePrimary font-bold">
-                                            R$:{salePrice.price}
-                                        </span>
-                                    )
-                                })}
-                                <span className={`${data.sales === undefined ? 'text-bluePrimary font-bold' : 'text-black line-through'}`}>
-                                    R$: {data.price}
-                                </span>  
-                            </p>
+        <div className="max-w-screen-xl mx-auto py-5 px-2">
+            <form
+                onSubmit={(e)=> e.preventDefault()}
+                className="w-full flex justify-between items-center rounded-full font-bold shadow-md my-5"
+            >
+                <input
+                    type={'Text'}
+                    className="w-5/6 px-7 py-3 rounded-full"
+                    placeholder="Buscar estabelecimento"
+                    onChange={e => setSeachFood(e.target.value)}
+                />
+                <button
+                    className="w-1/6 font-bold">
+                    Buscar no cardápio
+                </button>
+            </form>
+            <div className="grid grid-cols-2 gap-5">
+                {restaurant.filter((val) => {
+                    if (seachFood === '') {
+                        return val
+                    } else if (val.name.toLowerCase().includes(seachFood.toLowerCase())) {
+                        return val
+                    }
+                }).map((data, key) => {
+                    return (
+                        <div
+                            key={key}
+                            className="flex gap-4 shadow-lg rounded-[4px] items-center"
+                        >
+                            <img
+                                className="w-[150px] h-[150px] rounded-[4px]"
+                                src={data.image}
+                            />
+                            <div>
+                                <h2 className="font-semibold">
+                                    {data.name}
+                                </h2>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                </p>
+                                <p className="flex gap-4">
+                                    {data.sales === undefined ? '' : data.sales.map((salePrice, i) => {
+                                        return (
+                                            <span
+                                                key={i}
+                                                className="text-bluePrimary font-bold">
+                                                R$:{salePrice.price}
+                                            </span>
+                                        )
+                                    })}
+                                    <span className={`${data.sales === undefined ? 'text-bluePrimary font-bold' : 'text-black line-through'}`}>
+                                        R$: {data.price}
+                                    </span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })}
+            </div>
         </div>
     )
 }
