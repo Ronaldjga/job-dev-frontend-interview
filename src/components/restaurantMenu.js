@@ -107,13 +107,12 @@ function WorkDays(props) {
 
 function Menu(props) {
     const [restaurant, setRestaurant] = react.useState([]);
-    const router = useRouter()
-    const restId = parseFloat(router.query.restaurant) + 1
+    const restId = parseFloat(props.restaurantId) + 1
     const [seachFood, setSeachFood] = react.useState('')
 
     react.useEffect(() => {
         getMenu()
-    },[])
+    },[restId])
 
     const getMenu = async () => {
         const toArray = []
