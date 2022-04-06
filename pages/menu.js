@@ -8,6 +8,7 @@ export default function Menu() {
     const router = useRouter()
     const restaurantId = router.query.restaurant
     
+    
     return (
         <div>
             <RestaurantMenu

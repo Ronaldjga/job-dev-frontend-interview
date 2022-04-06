@@ -126,8 +126,39 @@ function Menu(props) {
     }
 
     return (
-        <div>
-            
+        <div className="grid grid-cols-2 gap-5">
+            {restaurant.map((data, key) => {
+                return (
+                    <div
+                        className="flex gap-4 shadow-md rounded-[4px] items-center"
+                    >
+                        <img
+                            className="w-[100px] h-[100px] rounded-[4px]"
+                            src={data.image}
+                        />
+                        <div>
+                            <h2 className="font-semibold">
+                                {data.name}
+                            </h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            </p>
+                            <p className="flex gap-4">
+                                {data.sales === undefined ? '' : data.sales.map((salePrice, o) => {
+                                    return (
+                                        <span className="text-bluePrimary font-bold">
+                                            R$:{salePrice.price}
+                                        </span>
+                                    )
+                                })}
+                                <span className={`${data.sales === undefined ? 'text-bluePrimary font-bold' : 'text-black line-through'}`}>
+                                    R$: {data.price}
+                                </span>  
+                            </p>
+                        </div>
+                    </div>
+                )
+            })}
         </div>
     )
 }
