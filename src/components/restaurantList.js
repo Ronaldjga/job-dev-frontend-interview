@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import Image from "next/image";
 import restauranIcon from './img/veganRestaurant.svg'
 import seachIcon from './img/search.png'
+import Link from "next/link";
 
 export function RestaurantList() {
 
@@ -72,26 +73,29 @@ function Restaurantes() {
                     }
                 }).map((data, key) => {
                     return (
-                        <div
-                            key={key}
-                            className="flex items-center bg-white p-2 rounded-[4px] shadow-md relative"
-                        >
-                            <div className="w-1/3">
-                                <Image
-                                    layout="responsive"
-                                    src={restauranIcon}
-                                    alt="restaurant logo"
-                                />
-                            </div>
-                            <p className="flex flex-col">
-                                <span>{data.name}</span>
-                                <span>{data.address}</span>
-                                {/* {console.log(data.hours === undefined ? '' : data.hours[0].days)} */}
-                            </p>
-                            <IsOpen
-                                IsOpen={data.hours}
-                            />
-                        </div>
+                        <Link key={key} href={`/menu?restaurant=${key}`}>
+                            <a>
+                                <div
+                                    className="flex items-center bg-white p-2 rounded-[4px] shadow-md relative"
+                                >
+                                    <div className="w-1/3">
+                                        <Image
+                                            layout="responsive"
+                                            src={restauranIcon}
+                                            alt="restaurant logo"
+                                        />
+                                    </div>
+                                    <p className="flex flex-col">
+                                        <span>{data.name}</span>
+                                        <span>{data.address}</span>
+                                        {/* {console.log(data.hours === undefined ? '' : data.hours[0].days)} */}
+                                    </p>
+                                    <IsOpen
+                                        IsOpen={data.hours}
+                                    />
+                                </div>
+                            </a>
+                        </Link>
                     )
                 })}
             </div>
@@ -128,6 +132,7 @@ function IsOpen(props) {
             })
         }
     }
+
     const newDate = new Date();
     const date = newDate.getDay() + 1;
     const hours = newDate.getHours() + ':' + newDate.getMinutes();
