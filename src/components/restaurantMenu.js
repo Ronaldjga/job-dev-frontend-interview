@@ -3,6 +3,7 @@ import Image from 'next/image'
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import seachIcon from './img/search.png'
+import { ModalFood } from "./modalFood";
 
 export function RestaurantMenu(props) {
 
@@ -109,10 +110,12 @@ function Menu(props) {
     const [restaurant, setRestaurant] = react.useState([]);
     const restId = parseFloat(props.restaurantId) + 1
     const [seachFood, setSeachFood] = react.useState('')
+    const [modalVisible, setModalVisible] = react.useState(false)
+    const [whatFood, setWhatFood] = react.useState()
 
     react.useEffect(() => {
         getMenu()
-    },[restId])
+    }, [restId])
 
     const getMenu = async () => {
         const toArray = []
@@ -130,7 +133,7 @@ function Menu(props) {
     return (
         <div className="max-w-screen-xl mx-auto py-5 px-2">
             <form
-                onSubmit={(e)=> e.preventDefault()}
+                onSubmit={(e) => e.preventDefault()}
                 className="w-full flex justify-between items-center rounded-full font-bold shadow-md my-5"
             >
                 <input
@@ -154,8 +157,13 @@ function Menu(props) {
                 }).map((data, key) => {
                     return (
                         <div
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setWhatFood(key)
+                                setModalVisible(true)
+                            }}
                             key={key}
-                            className="flex gap-4 shadow-lg rounded-[4px] items-center"
+                            className="flex gap-4 shadow-lg rounded-[4px] items-center cursor-pointer"
                         >
                             <img
                                 className="w-[150px] h-[150px] rounded-[4px]"
@@ -186,6 +194,7 @@ function Menu(props) {
                         </div>
                     )
                 })}
+                {modalVisible ? <ModalFood whatFood={restaurant[whatFood]} setModalVisible={setModalVisible}/> : null}
             </div>
         </div>
     )
