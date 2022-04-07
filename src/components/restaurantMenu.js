@@ -47,7 +47,7 @@ function AboutRestaurant(props) {
                 // console.log(data[props.restaurantId])
                 return (
                     <div
-                        className="flex w-2/4 gap-2"
+                        className="flex flex-col sm:flex-row sm:w-3/4 lg:w-2/4 gap-2"
                         key={key}
                     >
                         <img
@@ -134,20 +134,20 @@ function Menu(props) {
         <div className="max-w-screen-xl mx-auto py-5 px-2">
             <form
                 onSubmit={(e) => e.preventDefault()}
-                className="w-full flex justify-between items-center rounded-full font-bold shadow-md my-5"
+                className="w-full p-2 sm:p-0 flex justify-between items-center rounded-full font-bold shadow-md my-5"
             >
+                <button
+                    className="sm:w-1/6 font-bold relative">
+                    Buscar no cardápio
+                </button>
                 <input
                     type={'Text'}
-                    className="w-5/6 px-7 py-3 rounded-full"
+                    className="w-3/4 sm:w-5/6 px-7 py-3 rounded-full"
                     placeholder="Buscar estabelecimento"
                     onChange={e => setSeachFood(e.target.value)}
                 />
-                <button
-                    className="w-1/6 font-bold">
-                    Buscar no cardápio
-                </button>
             </form>
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid sm:grid-cols-2 gap-5">
                 {restaurant.filter((val) => {
                     if (seachFood === '') {
                         return val
@@ -166,7 +166,7 @@ function Menu(props) {
                             className="flex gap-4 shadow-lg rounded-[4px] items-center cursor-pointer"
                         >
                             <img
-                                className="w-[150px] h-[150px] rounded-[4px]"
+                                className="w-[150px] min-w-[150px] h-[150px] rounded-[4px]"
                                 src={data.image}
                             />
                             <div>

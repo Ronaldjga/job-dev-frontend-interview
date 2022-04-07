@@ -64,7 +64,7 @@ function Restaurantes() {
                     />
                 </button>
             </form>
-            <div className="grid grid-cols-3 gap-12 p-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 p-5">
                 {restaurantes.filter((val) => {
                     if (seachRestaurant === '') {
                         return val
@@ -138,7 +138,7 @@ function IsOpen(props) {
     const hours = newDate.getHours() + ':' + newDate.getMinutes();
     
     return (
-        <div className={`${isOpenStyle} w-[55px] h-[55px] flex justify-center items-center rounded-full text-[10px]  text-center text-white  absolute -right-7 -top-5`}>
+        <div className={`${isOpenStyle} w-[55px] h-[55px] flex justify-center items-center rounded-full text-[10px]  text-center text-white  absolute -top-5 -right-5 sm:-right-7 sm:-top-5`}>
             {currentTime}
         </div>
     )
