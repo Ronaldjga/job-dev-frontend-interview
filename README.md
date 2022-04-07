@@ -14,4 +14,4 @@
 
 ## Executar
 
-<p>Inicialize o codigo do desafio ultilizando <b style="font-size: 20px; padding: 5px; background-color:#00000050; color: #fff">npm run dev</b> ou <b style="font-size: 20px; padding: 5px; background-color:#00000050; color: #fff">yarn dev</b>. Após inicializar o codigo acesse o local host na porta 3000. <a href="http://localhost:3000/">Acesse clikando aqui.</a></p>
+<p>Inicialize o codigo do desafio ultilizando <b style="font-size: 20px; padding: 5px; background-color:#00000050; color: #fff">npm run dev</b> ou <b style="font-size: 20px; padding: 5px; background-color:#00000050; color: #fff">yarn dev</b>. Após inicializar o codigo acesse o local host na porta 3000. <a target="_black" href="http://localhost:3000/">Acesse clikando aqui.</a></p>
